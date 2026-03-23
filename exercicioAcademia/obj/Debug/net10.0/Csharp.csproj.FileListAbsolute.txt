@@ -1,0 +1,14 @@
+H:\Csharp\exercicioAcademia\bin\Debug\net10.0\Csharp.exe
+H:\Csharp\exercicioAcademia\bin\Debug\net10.0\Csharp.deps.json
+H:\Csharp\exercicioAcademia\bin\Debug\net10.0\Csharp.runtimeconfig.json
+H:\Csharp\exercicioAcademia\bin\Debug\net10.0\Csharp.dll
+H:\Csharp\exercicioAcademia\bin\Debug\net10.0\Csharp.pdb
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\Csharp.GeneratedMSBuildEditorConfig.editorconfig
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\Csharp.AssemblyInfoInputs.cache
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\Csharp.AssemblyInfo.cs
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\Csharp.csproj.CoreCompileInputs.cache
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\Csharp.dll
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\refint\Csharp.dll
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\Csharp.pdb
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\Csharp.genruntimeconfig.cache
+H:\Csharp\exercicioAcademia\obj\Debug\net10.0\ref\Csharp.dll
