@@ -43,7 +43,7 @@ class Program
                     RemoverExercicio(); 
                     break;
                 case 0: 
-                    Console.WriteLine("Exit..."); 
+                    Console.WriteLine("Exit"); 
                     break;
                 default: Console.WriteLine("Opção inválida!"); break;
             }
