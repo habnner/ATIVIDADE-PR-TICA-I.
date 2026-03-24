@@ -21,14 +21,30 @@ class Program
 
             switch (opcao)
             {
-                case 1: AdicionarExercicio(); break;
-                case 2: ListarExercicios(); break;
-                case 3: BuscarExercicio(); break;
-                case 4: FiltrarGrupo(); break;
-                case 5: CargaTotal(); break;
-                case 6: MaisPesado(); break;
-                case 7: RemoverExercicio(); break;
-                case 0: Console.WriteLine("Exit..."); break;
+                case 1: 
+                    AdicionarExercicio();
+                    break;
+                case 2:
+                    ListarExercicios(); 
+                    break;
+                case 3: 
+                    BuscarExercicio(); 
+                    break;
+                case 4: 
+                    FiltrarGrupo(); 
+                    break;
+                case 5: 
+                    CargaTotal(); 
+                    break;
+                case 6: 
+                    MaisPesado(); 
+                    break;
+                case 7: 
+                    RemoverExercicio(); 
+                    break;
+                case 0: 
+                    Console.WriteLine("Exit..."); 
+                    break;
                 default: Console.WriteLine("Opção inválida!"); break;
             }
 
