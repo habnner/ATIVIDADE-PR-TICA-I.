@@ -1,13 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 class Program
 {
-    static List<string> nomes = new List<string>();
-    static List<string> grupos = new List<string>();
-    static List<double> cargas = new List<double>();
-    static List<int> repeticoes = new List<int>();
+    static Dictionary<string, (string grupo, double carga, int repeticoes)> exercicios
+        = new Dictionary<string, (string, double, int)>();
 
     static void Main()
     {
@@ -22,29 +20,29 @@ class Program
             switch (opcao)
             {
                 case 1: 
-                    AdicionarExercicio();
-                    break;
+                AdicionarExercicio(); 
+                break;
                 case 2:
-                    ListarExercicios(); 
-                    break;
+                 ListarExercicios(); 
+                 break;
                 case 3: 
-                    BuscarExercicio(); 
-                    break;
+                BuscarExercicio(); 
+                break;
                 case 4: 
-                    FiltrarGrupo(); 
-                    break;
+                FiltrarGrupo(); 
+                break;
                 case 5: 
-                    CargaTotal(); 
-                    break;
+                CargaTotal(); 
+                break;
                 case 6: 
-                    MaisPesado(); 
-                    break;
+                MaisPesado(); 
+                break;
                 case 7: 
-                    RemoverExercicio(); 
-                    break;
+                RemoverExercicio(); 
+                break;
                 case 0: 
-                    Console.WriteLine("Exit"); 
-                    break;
+                Console.WriteLine("Saindo..."); 
+                break;
                 default: Console.WriteLine("Opção inválida!"); break;
             }
 
@@ -53,7 +51,7 @@ class Program
 
     static void Menu()
     {
-        Console.WriteLine("\n==== MENU ====");
+        Console.WriteLine("\n=========== MENU =============");
         Console.WriteLine("1 - Adicionar exercício");
         Console.WriteLine("2 - Listar exercícios");
         Console.WriteLine("3 - Buscar exercício por nome");
@@ -75,36 +73,37 @@ class Program
             return;
         }
 
+        if (exercicios.ContainsKey(nome))
+        {
+            Console.WriteLine("Exercício já existe!");
+            return;
+        }
+
         Console.Write("Grupo muscular: ");
         string grupo = Console.ReadLine();
 
-        double carga;
         Console.Write("Carga (kg): ");
-        if (!double.TryParse(Console.ReadLine(), out carga) || carga < 0)
+        if (!double.TryParse(Console.ReadLine(), out double carga) || carga < 0)
         {
             Console.WriteLine("Carga inválida!");
             return;
         }
 
-        int repet;
         Console.Write("Repetições: ");
-        if (!int.TryParse(Console.ReadLine(), out repet) || repet < 1)
+        if (!int.TryParse(Console.ReadLine(), out int repet) || repet < 1)
         {
             Console.WriteLine("Repetições inválidas!");
             return;
         }
 
-        nomes.Add(nome);
-        grupos.Add(grupo);
-        cargas.Add(carga);
-        repeticoes.Add(repet);
+        exercicios[nome] = (grupo, carga, repet);
 
         Console.WriteLine("Exercício adicionado");
     }
 
     static void ListarExercicios()
     {
-        if (nomes.Count == 0)
+        if (exercicios.Count == 0)
         {
             Console.WriteLine("Nenhum exercício cadastrado.");
             return;
@@ -112,44 +111,36 @@ class Program
 
         Console.WriteLine("\n--- Lista de Exercícios ---");
 
-        for (int i = 0; i < nomes.Count; i++)
+        foreach (var item in exercicios)
         {
-            Console.WriteLine($"{nomes[i]} - {grupos[i]} - {cargas[i]}kg - {repeticoes[i]} reps");
+            Console.WriteLine($"{item.Key} - {item.Value.grupo} - {item.Value.carga}kg - {item.Value.repeticoes} reps");
         }
     }
 
     static void BuscarExercicio()
     {
-        if (nomes.Count == 0)
+        if (exercicios.Count == 0)
         {
             Console.WriteLine("Lista vazia.");
             return;
         }
 
         Console.Write("Digite o nome: ");
-        string busca = Console.ReadLine();
+        string nome = Console.ReadLine();
 
-        var resultados = nomes
-            .Select((n, i) => new { Nome = n, Index = i })
-            .Where(x => x.Nome.Equals(busca, StringComparison.OrdinalIgnoreCase))
-            .ToList();
-
-        if (resultados.Count == 0)
+        if (exercicios.TryGetValue(nome, out var dados))
+        {
+            Console.WriteLine($"{nome} - {dados.grupo} - {dados.carga}kg - {dados.repeticoes} reps");
+        }
+        else
         {
             Console.WriteLine("Exercício não encontrado.");
-            return;
-        }
-
-        foreach (var item in resultados)
-        {
-            int i = item.Index;
-            Console.WriteLine($"{nomes[i]} - {grupos[i]} - {cargas[i]}kg - {repeticoes[i]} reps");
         }
     }
 
     static void FiltrarGrupo()
     {
-        if (nomes.Count == 0)
+        if (exercicios.Count == 0)
         {
             Console.WriteLine("Lista vazia.");
             return;
@@ -158,53 +149,51 @@ class Program
         Console.Write("Digite o grupo muscular: ");
         string grupoBusca = Console.ReadLine();
 
-        var resultados = grupos
-            .Select((g, i) => new { Grupo = g, Index = i })
-            .Where(x => x.Grupo.Equals(grupoBusca, StringComparison.OrdinalIgnoreCase))
-            .ToList();
+        var resultados = exercicios
+            .Where(e => e.Value.grupo.Equals(grupoBusca, StringComparison.OrdinalIgnoreCase));
 
-        if (resultados.Count == 0)
+        if (!resultados.Any())
         {
             Console.WriteLine("Nenhum exercício encontrado.");
             return;
         }
 
-        Console.WriteLine("\nExercícios encontrados:");
         foreach (var item in resultados)
         {
-            Console.WriteLine(nomes[item.Index]);
+            Console.WriteLine(item.Key);
         }
     }
 
     static void CargaTotal()
     {
-        if (cargas.Count == 0)
+        if (exercicios.Count == 0)
         {
             Console.WriteLine("Nenhum exercício cadastrado.");
             return;
         }
 
-        double total = cargas.Sum();
+        double total = exercicios.Sum(e => e.Value.carga);
         Console.WriteLine($"Carga total do treino: {total} kg");
     }
 
     static void MaisPesado()
     {
-        if (cargas.Count == 0)
+        if (exercicios.Count == 0)
         {
             Console.WriteLine("Nenhum exercício cadastrado.");
             return;
         }
 
-        double max = cargas.Max();
-        int index = cargas.IndexOf(max);
+        var maisPesado = exercicios
+            .OrderByDescending(e => e.Value.carga)
+            .First();
 
-        Console.WriteLine($"Mais pesado: {nomes[index]} - {max} kg");
+        Console.WriteLine($"Mais pesado: {maisPesado.Key} - {maisPesado.Value.carga} kg");
     }
 
     static void RemoverExercicio()
     {
-        if (nomes.Count == 0)
+        if (exercicios.Count == 0)
         {
             Console.WriteLine("Lista vazia.");
             return;
@@ -213,19 +202,13 @@ class Program
         Console.Write("Digite o nome do exercício: ");
         string nome = Console.ReadLine();
 
-        int index = nomes.FindIndex(n => n.Equals(nome, StringComparison.OrdinalIgnoreCase));
-
-        if (index == -1)
+        if (exercicios.Remove(nome))
+        {
+            Console.WriteLine("Exercício removido");
+        }
+        else
         {
             Console.WriteLine("Exercício não encontrado.");
-            return;
         }
-
-        nomes.RemoveAt(index);
-        grupos.RemoveAt(index);
-        cargas.RemoveAt(index);
-        repeticoes.RemoveAt(index);
-
-        Console.WriteLine("Exercício removido");
     }
 }
